@@ -1,4 +1,4 @@
-import { User } from '@/types'
+import { User, Task } from '@/types'
 
 export const localStorage = {
   getToken: (): string | null => {
@@ -40,5 +40,29 @@ export const localStorage = {
   setTheme: (theme: 'light' | 'dark'): void => {
     if (typeof window === 'undefined') return
     window.localStorage.setItem('theme', theme)
+  },
+
+  getTasks: (): Task[] => {
+    if (typeof window === 'undefined') return []
+    const tasksData = window.localStorage.getItem('sprint_board_tasks')
+    return tasksData ? JSON.parse(tasksData) : []
+  },
+
+  setTasks: (tasks: Task[]): void => {
+    if (typeof window === 'undefined') return
+    window.localStorage.setItem('sprint_board_tasks', JSON.stringify(tasks))
+  },
+
+  clearTasks: (): void => {
+    if (typeof window === 'undefined') return
+    window.localStorage.removeItem('sprint_board_tasks')
+  },
+
+  clearAllData: (): void => {
+    if (typeof window === 'undefined') return
+    window.localStorage.removeItem('sprint_board_tasks')
+    window.localStorage.removeItem('auth_token')
+    window.localStorage.removeItem('user_data')
+    window.localStorage.removeItem('theme')
   },
 }

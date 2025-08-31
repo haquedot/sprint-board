@@ -12,6 +12,10 @@ interface ColumnProps {
   onDragStart: (e: React.DragEvent, task: Task) => void
   onEditTask: (task: Task) => void
   draggedTask: Task | null
+  onTouchStart?: (task: Task, e: React.TouchEvent) => void
+  onTouchMove?: (e: React.TouchEvent) => void
+  onTouchEnd?: (e: React.TouchEvent) => void
+  touchDraggedTask?: Task | null
 }
 
 const columnConfig = {
@@ -49,6 +53,10 @@ export default function Column({
   onDragStart,
   onEditTask,
   draggedTask,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  touchDraggedTask,
 }: ColumnProps) {
   const config = columnConfig[status]
 
@@ -66,30 +74,39 @@ export default function Column({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`flex-1 ${config.bgColor} backdrop-blur-md rounded-2xl p-6 min-h-[600px] border-2 ${config.borderColor} shadow-xl hover:shadow-2xl transition-all duration-300`}
+      className={`
+        flex-1 ${config.bgColor} rounded-lg p-4 sm:p-6 min-h-[500px] sm:min-h-[600px] 
+        border ${config.borderColor} shadow-sm transition-all duration-200 ease-in-out
+        ${(draggedTask && status !== draggedTask.status) ||
+          (touchDraggedTask && status !== touchDraggedTask.status)
+          ? 'ring-2 ring-accent bg-accent/10 transform scale-[1.02]' 
+          : ''
+        }
+      `}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
+      data-column={status}
     >
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-3">
-          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${config.accent} flex items-center justify-center text-white shadow-lg`}>
-            <span className="text-lg">{config.emoji}</span>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg ${config.accent} flex items-center justify-center text-white shadow-sm`}>
+            <span className="text-base sm:text-lg">{config.emoji}</span>
           </div>
-          <div>
-            <h2 className={`text-xl font-bold ${config.headerColor}`}>
+          <div className="min-w-0 flex-1">
+            <h2 className={`text-lg sm:text-xl font-semibold ${config.headerColor} truncate`}>
               {config.title}
             </h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               {tasks.length} task{tasks.length !== 1 ? 's' : ''}
             </p>
           </div>
         </div>
-        <div className={`px-3 py-1.5 rounded-full bg-gradient-to-r ${config.accent} text-white text-sm font-medium shadow-md`}>
+        <div className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full ${config.accent} text-white text-xs sm:text-sm font-medium shadow-sm flex-shrink-0`}>
           {tasks.length}
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <AnimatePresence>
           {tasks.map((task, index) => (
             <motion.div
@@ -103,7 +120,10 @@ export default function Column({
                 task={task}
                 onDragStart={onDragStart}
                 onEdit={onEditTask}
-                isDragging={draggedTask?.id === task.id}
+                isDragging={draggedTask?.id === task.id || touchDraggedTask?.id === task.id}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
               />
             </motion.div>
           ))}

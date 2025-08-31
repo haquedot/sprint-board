@@ -3,13 +3,13 @@ import { TaskPriority } from '@/types'
 export const getPriorityColor = (priority: TaskPriority): string => {
   switch (priority) {
     case 'high':
-      return 'bg-gradient-to-r from-neutral-600 to-neutral-700 text-white shadow-md'
+      return 'bg-red-500 text-white text-xs px-2 py-1'
     case 'medium':
-      return 'bg-gradient-to-r from-neutral-500 to-neutral-600 text-white shadow-md'
+      return 'bg-yellow-500 text-white text-xs px-2 py-1'
     case 'low':
-      return 'bg-gradient-to-r from-neutral-400 to-neutral-500 text-white shadow-md'
+      return 'bg-green-500 text-white text-xs px-2 py-1'
     default:
-      return 'bg-gradient-to-r from-neutral-300 to-neutral-400 text-neutral-700 shadow-md'
+      return 'bg-gray-500 text-white text-xs px-2 py-1'
   }
 }
 

@@ -2,9 +2,9 @@
 
 /* Light theme (default) */
 :root {
-  --background: 255 255 255; /* white */
+  --background: 248 250 252; /* slate-50 */
   --foreground: 15 23 42; /* slate-900 */
-  --card: 248 250 252; /* slate-50 */
+  --card: 255 255 255; /* white */
   --card-foreground: 15 23 42; /* slate-900 */
   --primary: 59 130 246; /* blue-500 */
   --primary-foreground: 255 255 255; /* white */
@@ -21,20 +21,20 @@
 
 /* Dark theme */
 .dark {
-  --background: 2 6 23; /* slate-950 */
+  --background: 15 23 42; /* slate-900 */
   --foreground: 248 250 252; /* slate-50 */
-  --card: 15 23 42; /* slate-900 */
+  --card: 30 41 59; /* slate-800 */
   --card-foreground: 248 250 252; /* slate-50 */
   --primary: 96 165 250; /* blue-400 */
-  --primary-foreground: 30 41 59; /* slate-800 */
-  --secondary: 30 41 59; /* slate-800 */
+  --primary-foreground: 15 23 42; /* slate-900 */
+  --secondary: 51 65 85; /* slate-700 */
   --secondary-foreground: 248 250 252; /* slate-50 */
-  --muted: 30 41 59; /* slate-800 */
+  --muted: 51 65 85; /* slate-700 */
   --muted-foreground: 148 163 184; /* slate-400 */
-  --accent: 30 41 59; /* slate-800 */
+  --accent: 51 65 85; /* slate-700 */
   --accent-foreground: 248 250 252; /* slate-50 */
-  --border: 51 65 85; /* slate-700 */
-  --input: 30 41 59; /* slate-800 */
+  --border: 71 85 105; /* slate-600 */
+  --input: 51 65 85; /* slate-700 */
   --ring: 96 165 250; /* blue-400 */
 }
 
@@ -90,5 +90,72 @@ body {
   .dark .glass-morphism {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Responsive text sizing */
+  .text-responsive-xs { font-size: clamp(0.75rem, 2.5vw, 0.875rem); }
+  .text-responsive-sm { font-size: clamp(0.875rem, 2.5vw, 1rem); }
+  .text-responsive-base { font-size: clamp(1rem, 2.5vw, 1.125rem); }
+  .text-responsive-lg { font-size: clamp(1.125rem, 3vw, 1.25rem); }
+  .text-responsive-xl { font-size: clamp(1.25rem, 3.5vw, 1.5rem); }
+  .text-responsive-2xl { font-size: clamp(1.5rem, 4vw, 2rem); }
+  
+  /* Touch targets for mobile */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Theme-aware select elements */
+  select {
+    color-scheme: light dark;
+  }
+
+  .dark select {
+    color-scheme: dark;
+  }
+
+  /* Custom select styling */
+  select option {
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
+    padding: 8px 12px;
+  }
+
+  .dark select option {
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
+  }
+
+  /* Better select appearance */
+  select::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  select::-webkit-scrollbar-track {
+    background: rgb(var(--muted));
+  }
+
+  select::-webkit-scrollbar-thumb {
+    background: rgb(var(--border));
+    border-radius: 4px;
+  }
+
+  select::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--muted-foreground));
+  }
+
+  /* Custom dropdown arrow that adapts to theme */
+  .custom-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 3rem;
+    appearance: none;
+  }
+
+  .dark .custom-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%259ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
   }
 }

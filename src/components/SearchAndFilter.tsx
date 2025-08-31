@@ -20,17 +20,17 @@ export default function SearchAndFilter({
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-card/80 backdrop-blur-md rounded-2xl shadow-xl border border-border p-6"
+      className="bg-card rounded-lg shadow-sm border border-border p-4 sm:p-6"
     >
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
         <div className="flex-1">
           <label htmlFor="search" className="block text-sm font-medium text-foreground mb-2">
             Search Tasks
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
               <svg
-                className="h-5 w-5 text-muted-foreground"
+                className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -47,13 +47,13 @@ export default function SearchAndFilter({
               id="search"
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="block w-full pl-12 pr-4 py-3 border border-border rounded-xl leading-5 bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 shadow-sm"
+              className="block w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2 sm:py-3 border border-border rounded-lg leading-5 bg-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 shadow-sm text-sm sm:text-base"
               placeholder="Search tasks by title..."
             />
           </div>
         </div>
 
-        <div className="lg:w-64">
+        <div className="sm:w-48 lg:w-64">
           <label htmlFor="priority-filter" className="block text-sm font-medium text-foreground mb-2">
             Filter by Priority
           </label>
@@ -61,7 +61,7 @@ export default function SearchAndFilter({
             id="priority-filter"
             value={priorityFilter}
             onChange={(e) => onPriorityFilterChange(e.target.value as TaskPriority | 'all')}
-            className="block w-full px-4 py-3 border border-border rounded-xl bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 shadow-sm"
+            className="block w-full px-3 sm:px-4 py-2 sm:py-3 border border-border rounded-lg bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 shadow-sm text-sm sm:text-base custom-select cursor-pointer"
           >
             <option value="all">⚪ All Priorities</option>
             <option value="high">⚫ High Priority</option>

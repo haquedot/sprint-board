@@ -57,12 +57,12 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-screen items-center justify-center p-4 sm:p-6">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm transition-opacity"
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
               onClick={handleClose}
             />
 
@@ -70,27 +70,28 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative transform overflow-hidden rounded-2xl bg-card/95 backdrop-blur-md px-6 pb-6 pt-8 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-8 border border-border"
+              className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto bg-card rounded-xl shadow-2xl border border-border overflow-hidden"
             >
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <div className="flex items-center space-x-3 mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-neutral-500 to-neutral-600 flex items-center justify-center shadow-lg">
-                      <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                      </svg>
+              <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 mb-6 sm:mb-8">
+                      <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center shadow-sm flex-shrink-0">
+                        <svg className="h-6 w-6 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-xl sm:text-2xl font-bold leading-6 text-foreground">
+                          Create New Task
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Add a new task to your sprint board
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold leading-6 text-foreground">
-                        Create New Task
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Add a new task to your sprint board
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-6">
+                    
+                  <div className="space-y-4 sm:space-y-6">
                     <div>
                       <label htmlFor="title" className="block text-sm font-semibold text-foreground mb-2">
                         Task Title *
@@ -100,7 +101,7 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
                         id="title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-background text-foreground transition-all duration-200 shadow-sm"
+                        className="w-full px-4 py-3 sm:py-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-input text-foreground transition-all duration-200 shadow-sm text-sm sm:text-base"
                         placeholder="Enter a descriptive task title"
                         autoFocus
                       />
@@ -115,7 +116,7 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         rows={4}
-                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-background text-foreground transition-all duration-200 shadow-sm resize-none"
+                        className="w-full px-4 py-3 sm:py-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-input text-foreground transition-all duration-200 shadow-sm resize-none text-sm sm:text-base"
                         placeholder="Describe what needs to be done (optional)"
                       />
                     </div>
@@ -128,7 +129,7 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
                         id="priority"
                         value={priority}
                         onChange={(e) => setPriority(e.target.value as TaskPriority)}
-                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-background text-foreground transition-all duration-200 shadow-sm"
+                        className="w-full px-4 py-3 sm:py-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-input text-foreground transition-all duration-200 shadow-sm text-sm sm:text-base custom-select cursor-pointer"
                       >
                         <option value="low">⚪ Low Priority</option>
                         <option value="medium">⚫ Medium Priority</option>
@@ -153,13 +154,13 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
                   )}
                 </div>
 
-                <div className="mt-8 flex space-x-4 justify-end">
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-end">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="button"
                     onClick={handleClose}
-                    className="inline-flex justify-center rounded-xl border border-border bg-card px-6 py-3 text-sm font-medium text-foreground shadow-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200"
+                    className="w-full sm:w-auto inline-flex justify-center rounded-xl border border-border bg-card px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-foreground shadow-sm hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 order-2 sm:order-1"
                   >
                     Cancel
                   </motion.button>
@@ -168,7 +169,7 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
                     whileTap={{ scale: 0.98 }}
                     type="submit"
                     disabled={loading}
-                    className="inline-flex justify-center rounded-xl border border-transparent bg-gradient-to-r from-neutral-600 to-neutral-700 px-6 py-3 text-sm font-medium text-white shadow-lg hover:from-neutral-700 hover:to-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                    className="w-full sm:w-auto inline-flex justify-center rounded-xl border border-transparent bg-gradient-to-r from-neutral-600 to-neutral-700 px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-white shadow-lg hover:from-neutral-700 hover:to-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 order-1 sm:order-2"
                   >
                     {loading ? (
                       <div className="flex items-center space-x-2">
@@ -180,7 +181,8 @@ export default function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTas
                     )}
                   </motion.button>
                 </div>
-              </form>
+                </form>
+              </div>
             </motion.div>
           </div>
         </div>

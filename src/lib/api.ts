@@ -1,7 +1,8 @@
 import { Task, CreateTaskData, UpdateTaskData } from '@/types'
+import { localStorage } from './storage'
 
-// Mock data store
-let mockTasks: Task[] = [
+// Default mock data - will be loaded only if localStorage is empty
+const defaultTasks: Task[] = [
   {
     id: "1",
     title: "Wire nav",
@@ -49,6 +50,21 @@ let mockTasks: Task[] = [
   }
 ]
 
+// Helper function to get tasks from localStorage or initialize with defaults
+const getTasks = (): Task[] => {
+  const storedTasks = localStorage.getTasks()
+  if (storedTasks.length === 0) {
+    localStorage.setTasks(defaultTasks)
+    return [...defaultTasks]
+  }
+  return storedTasks
+}
+
+// Helper function to save tasks to localStorage
+const saveTasks = (tasks: Task[]): void => {
+  localStorage.setTasks(tasks)
+}
+
 // Simulate network delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -71,7 +87,7 @@ export const taskAPI = {
       throw new Error('Failed to fetch tasks')
     }
     
-    return [...mockTasks] // Return a copy
+    return getTasks() // Return tasks from localStorage
   },
 
   createTask: async (taskData: CreateTaskData): Promise<Task> => {
@@ -89,7 +105,9 @@ export const taskAPI = {
       updatedAt: new Date().toISOString(),
     }
     
-    mockTasks.push(newTask)
+    const currentTasks = getTasks()
+    currentTasks.push(newTask)
+    saveTasks(currentTasks)
     return newTask
   },
 
@@ -100,18 +118,20 @@ export const taskAPI = {
       throw new Error('Failed to update task')
     }
     
-    const taskIndex = mockTasks.findIndex(task => task.id === id)
+    const currentTasks = getTasks()
+    const taskIndex = currentTasks.findIndex((task: Task) => task.id === id)
     if (taskIndex === -1) {
       throw new Error('Task not found')
     }
     
     const updatedTask = {
-      ...mockTasks[taskIndex],
+      ...currentTasks[taskIndex],
       ...updates,
       updatedAt: new Date().toISOString(),
     }
     
-    mockTasks[taskIndex] = updatedTask
+    currentTasks[taskIndex] = updatedTask
+    saveTasks(currentTasks)
     return updatedTask
   },
 
@@ -122,11 +142,13 @@ export const taskAPI = {
       throw new Error('Failed to delete task')
     }
     
-    const taskIndex = mockTasks.findIndex(task => task.id === id)
+    const currentTasks = getTasks()
+    const taskIndex = currentTasks.findIndex((task: Task) => task.id === id)
     if (taskIndex === -1) {
       throw new Error('Task not found')
     }
     
-    mockTasks.splice(taskIndex, 1)
+    currentTasks.splice(taskIndex, 1)
+    saveTasks(currentTasks)
   },
 }
