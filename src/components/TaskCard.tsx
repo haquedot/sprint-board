@@ -12,6 +12,7 @@ interface TaskCardProps {
   onTouchStart?: (task: Task, e: React.TouchEvent) => void
   onTouchMove?: (e: React.TouchEvent) => void
   onTouchEnd?: (e: React.TouchEvent) => void
+  onKeyboardMove?: (taskId: string, direction: 'left' | 'right') => void
 }
 
 export default function TaskCard({ 
@@ -21,7 +22,8 @@ export default function TaskCard({
   isDragging,
   onTouchStart,
   onTouchMove,
-  onTouchEnd
+  onTouchEnd,
+  onKeyboardMove
 }: TaskCardProps) {
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't trigger edit when dragging
@@ -53,6 +55,24 @@ export default function TaskCard({
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    // Check for [ key (move left) or ] key (move right)
+    if (e.key === '[') {
+      e.preventDefault()
+      if (onKeyboardMove) {
+        onKeyboardMove(task.id, 'left')
+      }
+    } else if (e.key === ']') {
+      e.preventDefault()
+      if (onKeyboardMove) {
+        onKeyboardMove(task.id, 'right')
+      }
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      onEdit(task)
+    }
+  }
+
   return (
     <div
       draggable
@@ -68,7 +88,9 @@ export default function TaskCard({
         exit={{ opacity: 0, y: -20 }}
         whileHover={{ scale: 1.02, y: -2 }}
         whileTap={{ scale: 0.98 }}
-        className={`group bg-card border border-border rounded-lg shadow-sm p-4 cursor-move hover:shadow-md transition-all duration-200 ${
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        className={`group bg-card border border-border rounded-lg shadow-sm p-4 cursor-move hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent focus:shadow-lg ${
           isDragging ? 'opacity-50 rotate-1 scale-105' : ''
         }`}
     >

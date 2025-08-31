@@ -16,6 +16,7 @@ interface ColumnProps {
   onTouchMove?: (e: React.TouchEvent) => void
   onTouchEnd?: (e: React.TouchEvent) => void
   touchDraggedTask?: Task | null
+  onKeyboardMove?: (taskId: string, direction: 'left' | 'right') => void
 }
 
 const columnConfig = {
@@ -57,6 +58,7 @@ export default function Column({
   onTouchMove,
   onTouchEnd,
   touchDraggedTask,
+  onKeyboardMove,
 }: ColumnProps) {
   const config = columnConfig[status]
 
@@ -124,6 +126,7 @@ export default function Column({
                 onTouchStart={onTouchStart}
                 onTouchMove={onTouchMove}
                 onTouchEnd={onTouchEnd}
+                onKeyboardMove={onKeyboardMove}
               />
             </motion.div>
           ))}

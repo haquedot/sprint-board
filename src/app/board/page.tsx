@@ -12,6 +12,7 @@ import EditTaskModal from '@/components/EditTaskModal'
 import SearchAndFilter from '@/components/SearchAndFilter'
 import UndoToast from '@/components/UndoToast'
 import LoadingSkeleton from '@/components/LoadingSkeleton'
+import KeyboardShortcutsHelp from '@/components/KeyboardShortcutsHelp'
 import { motion } from 'framer-motion'
 
 export default function BoardPage() {
@@ -117,6 +118,26 @@ export default function BoardPage() {
 
   const handleUndoMove = async () => {
     await undoMove()
+  }
+
+  const handleKeyboardMove = async (taskId: string, direction: 'left' | 'right') => {
+    const task = tasks.find(t => t.id === taskId)
+    if (!task) return
+
+    const statusOrder: TaskStatus[] = ['todo', 'in-progress', 'done']
+    const currentIndex = statusOrder.indexOf(task.status)
+    
+    let newIndex: number
+    if (direction === 'left') {
+      newIndex = Math.max(0, currentIndex - 1)
+    } else {
+      newIndex = Math.min(statusOrder.length - 1, currentIndex + 1)
+    }
+    
+    const newStatus = statusOrder[newIndex]
+    if (newStatus !== task.status) {
+      await moveTask(taskId, newStatus)
+    }
   }
 
   const handleEditTask = (task: Task) => {
@@ -294,6 +315,7 @@ export default function BoardPage() {
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               touchDraggedTask={touchDraggedTask}
+              onKeyboardMove={handleKeyboardMove}
             />
             <Column
               status="in-progress"
@@ -307,6 +329,7 @@ export default function BoardPage() {
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               touchDraggedTask={touchDraggedTask}
+              onKeyboardMove={handleKeyboardMove}
             />
             <Column
               status="done"
@@ -320,6 +343,7 @@ export default function BoardPage() {
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               touchDraggedTask={touchDraggedTask}
+              onKeyboardMove={handleKeyboardMove}
             />
           </motion.div>
         </main>
@@ -346,6 +370,8 @@ export default function BoardPage() {
           onUndo={handleUndoMove}
           onDismiss={() => undoMove()}
         />
+
+        <KeyboardShortcutsHelp />
       </div>
     </AuthGuard>
   )
